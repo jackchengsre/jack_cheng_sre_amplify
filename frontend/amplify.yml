@@ -1,0 +1,24 @@
+# AWS Amplify Configuration for SRE Copilot Frontend
+
+# This file configures AWS Amplify to build and deploy the React frontend
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - echo "REACT_APP_API_BASE_URL=$API_BASE_URL" >> .env
+        - npm run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .npm/**/*
+
+# Environment variables will be configured in the Amplify Console
+# API_BASE_URL should point to your Elastic Beanstalk backend URL

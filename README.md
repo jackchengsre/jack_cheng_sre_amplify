@@ -12,7 +12,46 @@ SRE Copilot Enhanced is an AI-powered solution for root cause analysis and incid
 
 The SRE Copilot Enhanced follows a modern microservices architecture with a React.js frontend deployed to AWS Amplify and a FastAPI backend deployed to AWS Elastic Beanstalk.
 
-![Architecture Diagram](docs/architecture-diagram.png)
+```mermaid
+graph TD
+    subgraph "Frontend - AWS Amplify"
+        A[React.js Application] --> B[Redux Store]
+        A --> C[Material-UI Components]
+        A --> D[API Service]
+        D --> E[Axios HTTP Client]
+    end
+    
+    subgraph "Backend - AWS Elastic Beanstalk"
+        F[FastAPI Application] --> G[Pydantic Models]
+        F --> H[SQLAlchemy ORM]
+        F --> I[AWS SDK - Boto3]
+    end
+    
+    subgraph "AWS Services"
+        J[AWS Bedrock] --> K[Claude 3 Haiku - Log Analysis]
+        J --> L[Titan Text - Metrics Analysis]
+        J --> M[Nova Lite - Dashboard Analysis]
+        J --> N[Titan Embeddings - Knowledge Base]
+        J --> O[Nova Pro - Supervisor Agent]
+        P[CloudWatch] --> Q[Logs]
+        P --> R[Metrics]
+        S[S3 - Storage]
+        T[DynamoDB - Database]
+    end
+    
+    E -->|API Requests| F
+    F -->|AI Analysis| J
+    F -->|Metrics Data| P
+    F -->|Store Artifacts| S
+    F -->|Knowledge Base| T
+    
+    subgraph "User Interaction"
+        U[SRE Engineer] --> A
+        U -->|Incident Management| A
+        U -->|Root Cause Analysis| A
+        U -->|Knowledge Base Search| A
+    end
+```
 
 ### System Components
 

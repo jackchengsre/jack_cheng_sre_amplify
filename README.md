@@ -10,7 +10,22 @@ SRE Copilot Enhanced is an AI-powered solution for root cause analysis and incid
 
 ## Architecture
 
-The SRE Copilot Enhanced follows a modern microservices architecture with a React.js frontend deployed to AWS Amplify and a FastAPI backend deployed to AWS Elastic Beanstalk.
+The SRE Copilot Enhanced follows a modern microservices architecture with a React.js frontend deployed to AWS Amplify and a FastAPI backend deployed to AWS Elastic Beanstalk. Below are detailed diagrams of each component.
+
+### 1. System Overview
+
+```mermaid
+graph TD
+    A[SRE Engineer] --> B[Frontend - React.js]
+    B --> C[Backend - FastAPI]
+    C --> D[AWS Services]
+    D --> E[AI Analysis]
+    E --> C
+    C --> B
+    B --> A
+```
+
+### 2. Frontend Architecture
 
 ```mermaid
 graph TD
@@ -19,37 +34,92 @@ graph TD
         A --> C[Material-UI Components]
         A --> D[API Service]
         D --> E[Axios HTTP Client]
+        
+        subgraph "Key Frontend Features"
+            F[Incident Dashboard]
+            G[Analysis Visualization]
+            H[Knowledge Base UI]
+            I[Real-time Monitoring]
+        end
+        
+        A --> F
+        A --> G
+        A --> H
+        A --> I
     end
-    
+```
+
+### 3. Backend Architecture
+
+```mermaid
+graph TD
     subgraph "Backend - AWS Elastic Beanstalk"
-        F[FastAPI Application] --> G[Pydantic Models]
-        F --> H[SQLAlchemy ORM]
-        F --> I[AWS SDK - Boto3]
+        A[FastAPI Application] --> B[Pydantic Models]
+        A --> C[SQLAlchemy ORM]
+        A --> D[AWS SDK - Boto3]
+        
+        subgraph "API Endpoints"
+            E[Incident Management API]
+            F[Analysis API]
+            G[Knowledge Base API]
+            H[Monitoring API]
+        end
+        
+        A --> E
+        A --> F
+        A --> G
+        A --> H
     end
-    
+```
+
+### 4. AWS Services Integration
+
+```mermaid
+graph TD
     subgraph "AWS Services"
-        J[AWS Bedrock] --> K[Claude 3 Haiku - Log Analysis]
-        J --> L[Titan Text - Metrics Analysis]
-        J --> M[Nova Lite - Dashboard Analysis]
-        J --> N[Titan Embeddings - Knowledge Base]
-        J --> O[Nova Pro - Supervisor Agent]
-        P[CloudWatch] --> Q[Logs]
-        P --> R[Metrics]
-        S[S3 - Storage]
-        T[DynamoDB - Database]
+        A[AWS Bedrock] --> B[Claude 3 Haiku - Log Analysis]
+        A --> C[Titan Text - Metrics Analysis]
+        A --> D[Nova Lite - Dashboard Analysis]
+        A --> E[Titan Embeddings - Knowledge Base]
+        A --> F[Nova Pro - Supervisor Agent]
+        
+        G[CloudWatch] --> H[Logs]
+        G --> I[Metrics]
+        
+        J[S3 - Storage]
+        K[DynamoDB - Database]
     end
     
-    E -->|API Requests| F
-    F -->|AI Analysis| J
-    F -->|Metrics Data| P
-    F -->|Store Artifacts| S
-    F -->|Knowledge Base| T
-    
+    L[FastAPI Backend] -->|AI Analysis| A
+    L -->|Metrics Data| G
+    L -->|Store Artifacts| J
+    L -->|Knowledge Base| K
+```
+
+### 5. User Interaction Flow
+
+```mermaid
+graph TD
     subgraph "User Interaction"
-        U[SRE Engineer] --> A
-        U -->|Incident Management| A
-        U -->|Root Cause Analysis| A
-        U -->|Knowledge Base Search| A
+        A[SRE Engineer] --> B[Login]
+        B --> C[Dashboard]
+        
+        C --> D[Create Incident]
+        C --> E[View Incidents]
+        C --> F[Run Analysis]
+        C --> G[Search Knowledge Base]
+        
+        F --> H[Log Analysis]
+        F --> I[Metrics Analysis]
+        F --> J[Dashboard Analysis]
+        
+        H --> K[Root Cause Identification]
+        I --> K
+        J --> K
+        
+        K --> L[Resolution Recommendation]
+        L --> M[Apply Fix]
+        M --> N[Update Knowledge Base]
     end
 ```
 

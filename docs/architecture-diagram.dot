@@ -1,0 +1,107 @@
+digraph SRECopilotArchitecture {
+  // Graph settings
+  rankdir=TB;
+  splines=ortho;
+  nodesep=0.8;
+  ranksep=1.0;
+  fontname="Arial";
+  fontsize=14;
+  
+  // Node styles
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=12, margin="0.2,0.1"];
+  
+  // Edge styles
+  edge [fontname="Arial", fontsize=10, arrowsize=0.8];
+  
+  // Subgraphs for different components
+  subgraph cluster_frontend {
+    label="Frontend (AWS Amplify)";
+    style=filled;
+    color=lightblue;
+    fontcolor=darkblue;
+    
+    ReactApp [label="React.js Application", fillcolor=skyblue];
+    ReduxStore [label="Redux Store", fillcolor=skyblue];
+    MaterialUI [label="Material-UI Components", fillcolor=skyblue];
+    APIService [label="API Service", fillcolor=skyblue];
+    AxiosClient [label="Axios HTTP Client", fillcolor=skyblue];
+    
+    ReactApp -> ReduxStore [label="State Management"];
+    ReactApp -> MaterialUI [label="UI Components"];
+    ReactApp -> APIService [label="API Calls"];
+    APIService -> AxiosClient [label="HTTP Requests"];
+  }
+  
+  subgraph cluster_backend {
+    label="Backend (AWS Elastic Beanstalk)";
+    style=filled;
+    color=lightgreen;
+    fontcolor=darkgreen;
+    
+    FastAPI [label="FastAPI Application", fillcolor=palegreen];
+    Pydantic [label="Pydantic Models", fillcolor=palegreen];
+    SQLAlchemy [label="SQLAlchemy ORM", fillcolor=palegreen];
+    Boto3 [label="AWS SDK (Boto3)", fillcolor=palegreen];
+    
+    FastAPI -> Pydantic [label="Data Validation"];
+    FastAPI -> SQLAlchemy [label="Database Access"];
+    FastAPI -> Boto3 [label="AWS Integration"];
+  }
+  
+  subgraph cluster_aws {
+    label="AWS Services";
+    style=filled;
+    color=lightyellow;
+    fontcolor=darkorange;
+    
+    Bedrock [label="AWS Bedrock", fillcolor=gold];
+    Claude [label="Claude 3 Haiku\n(Log Analysis)", fillcolor=gold];
+    Titan [label="Titan Text\n(Metrics Analysis)", fillcolor=gold];
+    Nova [label="Nova Lite\n(Dashboard Analysis)", fillcolor=gold];
+    TitanEmbed [label="Titan Embeddings\n(Knowledge Base)", fillcolor=gold];
+    NovaPro [label="Nova Pro\n(Supervisor Agent)", fillcolor=gold];
+    
+    CloudWatch [label="CloudWatch", fillcolor=gold];
+    Logs [label="Logs", fillcolor=gold];
+    Metrics [label="Metrics", fillcolor=gold];
+    
+    S3 [label="S3 Storage", fillcolor=gold];
+    DynamoDB [label="DynamoDB", fillcolor=gold];
+    
+    Bedrock -> Claude;
+    Bedrock -> Titan;
+    Bedrock -> Nova;
+    Bedrock -> TitanEmbed;
+    Bedrock -> NovaPro;
+    
+    CloudWatch -> Logs;
+    CloudWatch -> Metrics;
+  }
+  
+  subgraph cluster_user {
+    label="User Interaction";
+    style=filled;
+    color=lavender;
+    fontcolor=darkviolet;
+    
+    SRE [label="SRE Engineer", fillcolor=plum];
+    IncidentMgmt [label="Incident Management", fillcolor=plum];
+    RootCause [label="Root Cause Analysis", fillcolor=plum];
+    KnowledgeSearch [label="Knowledge Base Search", fillcolor=plum];
+    
+    SRE -> IncidentMgmt;
+    SRE -> RootCause;
+    SRE -> KnowledgeSearch;
+  }
+  
+  // Inter-cluster connections
+  AxiosClient -> FastAPI [label="API Requests", color=blue, penwidth=2];
+  FastAPI -> Bedrock [label="AI Analysis", color=orange, penwidth=2];
+  FastAPI -> CloudWatch [label="Metrics Data", color=orange, penwidth=2];
+  FastAPI -> S3 [label="Store Artifacts", color=orange, penwidth=2];
+  FastAPI -> DynamoDB [label="Knowledge Base", color=orange, penwidth=2];
+  
+  IncidentMgmt -> ReactApp [color=purple, penwidth=2];
+  RootCause -> ReactApp [color=purple, penwidth=2];
+  KnowledgeSearch -> ReactApp [color=purple, penwidth=2];
+}
